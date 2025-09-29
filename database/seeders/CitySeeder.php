@@ -19,6 +19,9 @@ class CitySeeder extends Seeder
         $file = fopen($csvPath, 'r');
         $firstLine = true;
 
+        $length = count(file($csvPath));
+        $this->command->getOutput()->progressStart($length);
+
         while (($row = fgetcsv($file,separator: ";")) !== FALSE) {
             if ($firstLine) {
                 $firstLine = false;
@@ -36,13 +39,17 @@ class CitySeeder extends Seeder
             if ($row[0] == "" || $row[1] == "") {
                 continue;
             }
-    
-            City::insert([
-                'postal_code' => $row[0],
-                'name' => $row[1],
-                'county_id' => $county_id
-            ]);
-        }
 
+            $city = City::where('name', $row[1])->first();
+            if (!$city['name']) {
+                City::insert([
+                    'postal_code' => $row[0],
+                    'name' => $row[1],
+                    'county_id' => $county_id
+                ]);
+            }
+            $this->command->getOutput()->progressAdvance();
+        }
+        $this->command->getOutput()->progressFinish();
     }
 }
