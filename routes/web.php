@@ -7,5 +7,4 @@ use Illuminate\Support\Facades\Route;
 // Route::get('/', function () {
 //     return view('welcome');
 // });
-Route::get('/counties', [CountyController::class, 'index']);
-Route::get('/cities', [CityController::class, 'index']);
+
