@@ -26,7 +26,18 @@ class CityController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $request->validate([
+            'postal_code' => 'required|int',
+            'name' => 'required|string',
+            'county_id' => 'required|exists:counties,id',
+        ], [
+            'postal_code.required' => 'Az irányítószám megadása kötelező.',
+            'postal_code.integer' => 'Az irányítószám csak szám lehet.',
+            'name.required' => 'A név megadása kötelező.',
+            'county_id.exists' => 'A megadott megye nem létezik.',
+        ]);
+        $city = City::create($request->all());
+        return response()->json(['city' => $city]);
     }
 
     /**

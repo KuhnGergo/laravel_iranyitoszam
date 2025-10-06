@@ -9,4 +9,7 @@ Route::post('/users/login', [UserController::class,'login']);
 Route::get('/users', [UserController::class,'index'])->middleware('auth:sanctum');
 
 Route::get('/counties', [CountyController::class, 'index']);
+Route::post('/counties', [CountyController::class, 'store'])->middleware('auth:sanctum');
+
 Route::get('/cities', [CityController::class, 'index']);
+Route::post('/cities', [CityController::class, 'store'])->middleware('auth:sanctum');

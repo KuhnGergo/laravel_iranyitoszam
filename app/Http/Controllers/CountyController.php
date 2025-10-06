@@ -26,7 +26,13 @@ class CountyController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $request->validate([
+            'name' => 'required|string',
+        ]);
+
+        $county = County::create($request->all());
+
+        return response()->json(['county' => $county]);
     }
 
     /**
