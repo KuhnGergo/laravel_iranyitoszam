@@ -36,7 +36,11 @@ class CityController extends Controller
      */
     public function show(string $id)
     {
-        //
+        $city = City::findOrFail($id);
+
+        return response()->json([
+            'city' => $city
+        ]);
     }
 
     /**
@@ -61,6 +65,30 @@ class CityController extends Controller
         return response()->json([
             'message' => 'Város eliminálva. 👍',
             'id' => $id
+        ]);
+    }
+
+    public function countycities(string $county_id) {
+        $cities = City::where('county_id',$county_id)->get();
+
+        return response()->json([
+            'cities' => $cities
+        ]);
+    }
+
+    public function names(string $subname){
+        $cities = City::where('name', 'LIKE', $subname . '%') -> get();
+
+        return response()->json([
+            'cities' => $cities
+        ]);
+    }
+
+    public function countycitiesnames(string $county_id, string $subname) {
+        $cities = City::where('county_id',$county_id)->where('name', 'LIKE', $subname . '%')->get();
+
+        return response()->json([
+            'cities' => $cities
         ]);
     }
 }

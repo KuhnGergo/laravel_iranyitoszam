@@ -9,11 +9,17 @@ Route::post('/users/login', [UserController::class,'login']);
 Route::get('/users', [UserController::class,'index'])->middleware('auth:sanctum');
 
 Route::get('/counties', [CountyController::class, 'index']);
+Route::get('/counties/{id}', [CountyController::class, 'show']);
 Route::post('/counties', [CountyController::class, 'store'])->middleware('auth:sanctum');
 Route::patch('/counties/{id}', [CountyController::class, 'update'])->middleware('auth:sanctum');
 Route::delete('/counties/{id}', [CountyController::class, 'destroy'])->middleware('auth:sanctum');
 
 Route::get('/cities', [CityController::class, 'index']);
+Route::get('/cities/{id}', [CityController::class, 'show']);
 Route::post('/cities', [CityController::class, 'store'])->middleware('auth:sanctum');
 Route::patch('/cities/{id}', [CityController::class, 'update'])->middleware('auth:sanctum');
 Route::delete('/cities/{id}', [CityController::class, 'destroy'])->middleware('auth:sanctum');
+
+Route::get('/counties/{id}/cities',[CityController::class,'countycities']);
+Route::get('/cities/names/{name}',[CityController::class,'names']);
+Route::get('/counties/{id}/cities/names/{name}',[CityController::class,'countycitiesnames']);

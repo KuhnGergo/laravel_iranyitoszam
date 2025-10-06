@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\CountyRequest;
+use App\Models\City;
 use App\Models\County;
 use Illuminate\Http\Request;
 
@@ -37,7 +38,11 @@ class CountyController extends Controller
      */
     public function show(string $id)
     {
-        //
+        $county = County::findOrFail($id);
+
+        return response()->json([
+            'county' => $county
+        ]);
     }
 
     /**
@@ -64,4 +69,6 @@ class CountyController extends Controller
             'id' => $id
         ]);
     }
+
+    
 }
