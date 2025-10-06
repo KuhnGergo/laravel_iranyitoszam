@@ -55,6 +55,12 @@ class CityController extends Controller
      */
     public function destroy(string $id)
     {
-        //
+        $city = City::findOrFail($id);
+        $city->delete();
+
+        return response()->json([
+            'message' => 'Város eliminálva. 👍',
+            'id' => $id
+        ]);
     }
 }

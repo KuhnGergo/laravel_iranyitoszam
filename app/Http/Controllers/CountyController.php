@@ -56,6 +56,12 @@ class CountyController extends Controller
      */
     public function destroy(string $id)
     {
-        //
+        $county = County::findOrFail($id);
+        $county->delete();
+
+        return response()->json([
+            'message' => 'Megye eliminálva. 👍',
+            'id' => $id
+        ]);
     }
 }
