@@ -2,10 +2,12 @@
 
 use App\Http\Controllers\CityController;
 use App\Http\Controllers\CountyController;
+use App\Http\Controllers\UserController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
-Route::get('/user', function (Request $request) {
+Route::post('/users/login', [UserController::class,'login']);
+Route::get('/users', function (Request $request) {
     return $request->user();
 })->middleware('auth:sanctum');
 
