@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\CountyRequest;
 use App\Models\County;
 use Illuminate\Http\Request;
 
@@ -24,12 +25,8 @@ class CountyController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(CountyRequest $request)
     {
-        $request->validate([
-            'name' => 'required|string',
-        ]);
-
         $county = County::create($request->all());
 
         return response()->json(['county' => $county]);
@@ -46,9 +43,12 @@ class CountyController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update(CountyRequest $request, string $id)
     {
-        //
+        $county = County::findOrFail($id);
+        $county->update($request->all());
+
+        return response()->json(['county' => $county]);
     }
 
     /**

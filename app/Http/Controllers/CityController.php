@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\CityRequest;
 use App\Models\City;
 use Illuminate\Http\Request;
 
@@ -24,18 +25,8 @@ class CityController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(CityRequest $request)
     {
-        $request->validate([
-            'postal_code' => 'required|int',
-            'name' => 'required|string',
-            'county_id' => 'required|exists:counties,id',
-        ], [
-            'postal_code.required' => 'Az irányítószám megadása kötelező.',
-            'postal_code.integer' => 'Az irányítószám csak szám lehet.',
-            'name.required' => 'A név megadása kötelező.',
-            'county_id.exists' => 'A megadott megye nem létezik.',
-        ]);
         $city = City::create($request->all());
         return response()->json(['city' => $city]);
     }
@@ -51,9 +42,12 @@ class CityController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update(CityRequest $request, string $id)
     {
-        //
+        $city = City::findOrFail($id);
+        $city->update($request->all());
+
+        return response()->json(['city' => $city]);
     }
 
     /**
