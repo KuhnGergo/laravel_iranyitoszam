@@ -20,6 +20,7 @@ Route::post('/cities', [CityController::class, 'store'])->middleware('auth:sanct
 Route::patch('/cities/{id}', [CityController::class, 'update'])->middleware('auth:sanctum');
 Route::delete('/cities/{id}', [CityController::class, 'destroy'])->middleware('auth:sanctum');
 
+Route::get('/counties/{id}/abc',[CityController::class,'abc']);
 Route::get('/counties/{id}/cities',[CityController::class,'countycities']);
 Route::get('/cities/names/{name}',[CityController::class,'names']);
 Route::get('/counties/{id}/cities/names/{name}',[CityController::class,'countycitiesnames']);

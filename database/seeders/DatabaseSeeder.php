@@ -20,7 +20,7 @@ class DatabaseSeeder extends Seeder
                 'name' => 'Geri',
                 'email' => 'geri@gmail.com',
                 'password' => '123',
-            ]),
+            ])
         ]);
     }
 }

@@ -41,7 +41,7 @@ class CitySeeder extends Seeder
             }
 
             $city = City::where('name', $row[1])->first();
-            if (!$city['name']) {
+            if (empty($city) || !$city['name']) {
                 City::insert([
                     'postal_code' => $row[0],
                     'name' => $row[1],

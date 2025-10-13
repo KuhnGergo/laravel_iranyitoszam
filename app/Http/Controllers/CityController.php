@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Requests\CityRequest;
 use App\Models\City;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class CityController extends Controller
 {
@@ -90,5 +91,18 @@ class CityController extends Controller
         return response()->json([
             'cities' => $cities
         ]);
+    }
+
+    public function abc(string $county_id) {
+        $firsts = City::where('county_id',$county_id)->select(DB::raw('SUBSTR(name, 1, 1) AS betuk'))->distinct()->pluck('betuk')->toArray();
+
+        return response()->json([
+            'data' => $firsts
+        ]);
+    }
+
+    // unnecessary "countycitiesnames" works fine
+    public function countyInitialCities(string $county_id, string $initial) {
+        $this->countycitiesnames($county_id,$initial);
     }
 }
