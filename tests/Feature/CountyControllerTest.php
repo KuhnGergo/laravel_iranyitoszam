@@ -26,17 +26,44 @@ class CountyControllerTest extends TestCase
         $token = $user->createToken('TestToken')->plainTextToken;
         
         $response = $this->withHeaders([
-            'Authorization' => $token,
+            'Authorization' => 'Bearer ' . $token,
+        ])->postJson('/api/counties', [
+            'name' => 'Test County',
         ]);
+
+        $response->assertStatus(201)->assertJsonFragment(['name' => 'Test County']);
+        $this->assertDatabaseHas('counties', ['name' => 'Test County']);
     }
-
-
     public function test_index_returns_counties() {
-        County::factory()->create(['name' => 'Pest']);
         County::factory()->create(['name' => 'Baranya']);
+        County::factory()->create(['name' => 'Pest']);
 
         $response = $this->getJson('/api/counties');
 
-        $response->assertStatus(200)->assertJsonFragment(['name' => 'Pest'])->assertJsonFragment(['name' => 'Baranya']);
+        $response->assertStatus(200)
+                 ->assertJsonFragment(['name' => 'Baranya'])
+                 ->assertJsonFragment(['name' => 'Pest']);
+    }
+
+    public function test_show_returns_specific_county() {
+        $county = County::factory()->create(['name' => 'Somogy']);
+
+        $response = $this->getJson("/api/counties/{$county->id}");
+
+        $response->assertStatus(200)->assertJsonFragment(['name' => 'Somogy']);
+    }
+
+    public function test_delete_removes_county() {
+        $user = User::factory()->create();
+        $token = $user->createToken('TestToken')->plainTextToken;
+
+        $county = County::factory()->create(['name' => 'Vas']);
+
+        $response = $this->withHeaders([
+            'Authorization' => 'Bearer ' . $token,
+        ])->deleteJson("/api/counties/{$county->id}");
+
+        $response->assertStatus(204);
+        $this->assertDatabaseMissing('counties', ['id' => $county->id]);
     }
 }
