@@ -98,7 +98,7 @@ class CountyController extends Controller
     {
         $county = County::create($request->all());
 
-        return response()->json(['county' => $county]);
+        return response()->json(['county' => $county], 201);
     }
 
     /**
@@ -234,7 +234,7 @@ class CountyController extends Controller
         return response()->json([
             'message' => 'Megye eliminálva. 👍',
             'id' => $id
-        ]);
+        ], 204);
     }
 
     
