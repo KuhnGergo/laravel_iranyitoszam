@@ -66,4 +66,23 @@ class CountyControllerTest extends TestCase
         $response->assertStatus(204);
         $this->assertDatabaseMissing('counties', ['id' => $county->id]);
     }
+
+    public function test_update_modifies_existing_county()
+    {
+        $county = County::factory()->create(['name' => 'Heves']);
+
+        $user = User::factory()->create();
+        $token = $user->createToken('TestToken')->plainTextToken;
+
+        $response = $this->withHeaders([
+            'Authorization' => 'Bearer ' . $token,
+        ])->putJson("/api/counties/{$county->id}", [
+            'name' => 'Nógrád'
+        ]);
+
+        $response->assertStatus(200)
+            ->assertJsonFragment(['name' => 'Nógrád']);
+
+        $this->assertDatabaseHas('counties', ['id' => $county->id, 'name' => 'Nógrád']);
+    } 
 }
