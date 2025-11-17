@@ -85,13 +85,13 @@ class CityControllerTest extends TestCase
 
         $response = $this->withHeaders([
             'Authorization' => 'Bearer ' . $token,
-        ])->putJson("/api/cities/{$city->id}", [
+        ])->patchJson("/api/cities/{$city->id}", [
             'name' => 'Nógrád'
         ]);
 
         $response->assertStatus(200)
             ->assertJsonFragment(['name' => 'Nógrád']);
 
-        $this->assertDatabaseHas('cities', ['id' => $city->id, 'name' => 'Test City']);
+        $this->assertDatabaseHas('cities', ['id' => $city->id, 'name' => 'Nógrád']);
     } 
 }

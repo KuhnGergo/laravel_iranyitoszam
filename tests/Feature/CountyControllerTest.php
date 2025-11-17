@@ -76,13 +76,13 @@ class CountyControllerTest extends TestCase
 
         $response = $this->withHeaders([
             'Authorization' => 'Bearer ' . $token,
-        ])->putJson("/api/counties/{$county->id}", [
-            'name' => 'Nógrád'
+        ])->patchJson("/api/counties/{$county->id}", [
+            'name' => 'Tolna'
         ]);
 
         $response->assertStatus(200)
-            ->assertJsonFragment(['name' => 'Nógrád']);
+            ->assertJsonFragment(['name' => 'Tolna']);
 
-        $this->assertDatabaseHas('counties', ['id' => $county->id, 'name' => 'Nógrád']);
+        $this->assertDatabaseHas('counties', ['id' => $county->id, 'name' => 'Tolna']);
     } 
 }
