@@ -17,4 +17,15 @@ Route::middleware('auth')->group(function () {
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
 
+Route::get("/counties", [CountyController::class, "index"])->name('counties.index');
+Route::get("/counties/{id}", [CountyController::class, "show"])->name('counties.show');
+Route::post("/counties/{id}", [CountyController::class, "edit"])->name('counties.edit');
+Route::post('/counties', [CountyController::class, 'store'])->name('counties.store');
+Route::put("/counties/{id}", [CountyController::class, "update"])->name('counties.update');
+Route::delete("/counties/{id}", [CountyController::class, "destroy"])->name('counties.destroy');
+
+// Route::get('/counties/export/csv', [CountyController::class, 'exportCsv'])->name('counties.export.csv');
+// Route::get('/counties/export/pdf', [CountyController::class, 'exportPdf'])->name('counties.export.pdf');
+// Route::get('/counties/mail', [CountyController::class, 'sendMail'])->name('counties.mail');
+
 require __DIR__.'/auth.php';
