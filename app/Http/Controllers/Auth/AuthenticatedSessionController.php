@@ -31,40 +31,35 @@ class AuthenticatedSessionController extends Controller
         ]);
 
         if ($response->successful()) {
-            // $response_body = json_decode($response['body']);
-            $token = $response['token'];
-            $user = $response['user'];
+            $responseBody = json_decode($response->body());
+            if (empty($responseBody->data)) {
+                return back()->withErrors([
+                    'message' => $responseBody->message,
+                ]);
+            }
+
             session([
-                'api_token' => $token,
-                'user_name' => $user['name'],
-                'user_email' => $user['email'],
+                'api_token' => $responseBody->data->token,
+                'user_name' => $responseBody->data->name,
+                'user_email' => $responseBody->data->email,
             ]);
 
+            return redirect()->intended('/');
+
         }
-        return redirect()->intended('/');
-
-        // $request->authenticate();
-
-        // $request->session()->regenerate();
-
-        // return redirect()->intended(route('dashboard', absolute: false));
+        return back()->withErrors([
+            'email' => 'Hibás bejelentkezési adatok.',
+        ]);
     }
 
-    /**
-     * Destroy an authenticated session.
-     */
     public function destroy(Request $request): RedirectResponse
     {
         session()->forget('api_token');
-
+		session()->forget('user_name');
+		session()->forget('user_email');
+		
         return redirect('/');
-
-        // Auth::guard('web')->logout();
-
-        // $request->session()->invalidate();
-
-        // $request->session()->regenerateToken();
-
-        // return redirect('/');
     }
+
+    
 }

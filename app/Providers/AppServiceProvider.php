@@ -7,6 +7,7 @@ use Illuminate\Support\Facades\Http;
 
 class AppServiceProvider extends ServiceProvider
 {
+    
     /**
      * Register any application services.
      */

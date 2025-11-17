@@ -34,6 +34,7 @@ return [
             'channel' => env('SLACK_BOT_USER_DEFAULT_CHANNEL'),
         ],
     ],
+    
     // API url megadása
     // .env-ből szedi ki az api_url-t, ha nem találja, ez a default érték
     'api' => [
